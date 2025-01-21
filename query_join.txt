@@ -5,17 +5,16 @@ QUERY CON JOIN
 	SELECT `students`.* , `degrees`.`name` AS `degree_name`
 	FROM `students`
 	JOIN `degrees` ON  `students`.`degree_id` = `degrees`.`id`
-	WHERE `degrees`.`name` = 'Corso di Laurea in Economia'
+	WHERE `degrees`.`name` = 'Corso di Laurea in Economia';
 
 
 2. Selezionare tutti i Corsi di Laurea Magistrale del Dipartimento di Neuroscienze
 
-	SELECT `courses`.*, `departments`.`name` AS `department_name`
-	FROM `courses`
-	JOIN `degrees` ON `courses`.`degree_id` = `degrees`.`id`
+	SELECT `degrees`.*, `departments`.`name` AS `department_name`
+	FROM `degrees`
 	JOIN `departments` ON `degrees`.`department_id` = `departments`.`id`
 	WHERE `departments`.`name` = 'Dipartimento di Neuroscienze'
-		AND `degrees`.`level` = 'magistrale'
+		AND `degrees`.`level` = 'magistrale';
 
 
 3. Selezionare tutti i corsi in cui insegna Fulvio Amato (id=44)
@@ -24,7 +23,7 @@ QUERY CON JOIN
 	FROM `courses`
 	JOIN `course_teacher` ON `courses`.`id` = `course_teacher`.`teacher_id`
 	JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id`
-	WHERE `teachers`.`id` = 44
+	WHERE `teachers`.`id` = 44;
 
 
 4. Selezionare tutti gli studenti con i dati relativi al corso di laurea a cui sono 
@@ -61,9 +60,9 @@ per ogni esame, stampando anche il voto massimo. Successivamente,
 filtrare i tentativi con voto minimo 18.
 
 	SELECT `students`.`registration_number`, 
-		COUNT(`exam_student`.`exam_id`) AS `total_exams`, 
-		MAX(`exam_student`.`vote`) AS `highest_grade`
+       COUNT(`exam_student`.`exam_id`) AS `total_exams`, 
+       MAX(`exam_student`.`vote`) AS `highest_grade`
 	FROM `students`
 	JOIN `exam_student` ON `students`.`id` = `exam_student`.`student_id`
-	WHERE `exam_student`.`vote` >= 18
-	GROUP BY `students`.`id`;
+	GROUP BY `students`.`registration_number`
+	HAVING MAX(`exam_student`.`vote`) >= 18
