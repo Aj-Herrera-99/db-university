@@ -1,3 +1,4 @@
 *.mwb
 *.mwb.bak
 *.vscode
+*.sql
